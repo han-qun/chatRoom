@@ -1,0 +1,238 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+li{
+    list-style: none;
+}
+.chatBox{
+    width: 800px;
+    height: 600px;
+    /*border: 1px solid black;*/
+    margin: 100px auto;
+    color: white;
+    display: none;
+
+}
+.chatBox .left{
+    width: 27%;
+    height: 100%;
+    float: left;
+    padding: 20px 15px;
+    box-sizing: border-box;
+    background-color: #2E3539;
+}
+.chatBox .right{
+    width: 73%;
+    height: 100%;
+    float: left;
+    background-color: #ECECEC;
+}
+/*当前用户*/
+.currentUser img{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-bottom: 7px;
+    /*margin-right: 16px;*/
+}
+.currentUser span{
+    margin-left: -3px;
+}
+.currentUser{
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+}
+/*在线用户*/
+.chatBox .left p{
+    margin: 25px 0px 10px;
+    font-size: 18px;
+    font-weight: 400;
+}
+.userList{
+   height: 100%;
+    overflow: hidden;
+}
+.userList ul{
+    width: 100%;
+    height: 70%;
+    overflow: auto;
+
+}
+
+.userList img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 13px;
+}
+.userList li:first-child{
+    border-top: 1px solid #272D32;
+}
+.userList li{
+    font-size: 14px;
+    padding: 10px 0px;
+    border-bottom: 1px solid #272D32;
+}
+
+/*聊天室*/
+.right h2{
+    width: 100%;
+    height: 55px;
+    text-align: center;
+    line-height: 55px;
+    font-size: 20px;
+    color: #272D32;
+    font-weight: 400;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+.infoDiv{
+    width: 100%;
+    height: calc(100% - 55px);
+}
+.infoDiv .content{
+    height: 75%;
+    width: 100%;
+    padding: 0px 10px;
+    overflow: auto;
+    box-sizing: border-box;
+}
+.infoDiv .editDiv{
+    height: 25%;
+    box-sizing: border-box;
+    border-top: 1px solid rgba(0,0,0,.1);
+}
+.tool{
+    height: 30px;
+    line-height: 30px;
+    /*border-bottom: 1px solid rgba(0,0,0,.1);*/
+    font-size: 26px;
+    padding-left: 10px;
+    color: #878B99;
+}
+.tool .iconfont{
+    cursor: pointer;
+}
+.tool .icon-circle_emjoi{
+    font-size: 22px;
+    vertical-align: middle;
+}
+.tool .icon-tupian{
+    font-size: 20px;
+}
+.editDiv>div:last-child{
+    overflow: hidden;
+    height: calc(100% - 30px);
+    position: relative;
+}
+.editContent{
+    width: 85%;
+    height: 100%;
+    float: left;
+    background-color: transparent;
+    padding-left: 10px;
+    font-size: 17px;
+    padding-top: 5px;
+    outline: none;
+    color: #2E3539;
+}
+.editDiv .btDiv{
+    width: 15%;
+    float: left;
+    text-align: right;
+    box-sizing: border-box;
+    /*padding-right: 15px;*/
+    margin-bottom: 5px;
+    position: absolute;
+    right: 15px;
+    bottom: 30px;
+}
+.editDiv .btDiv button{
+    border: none;
+    background-color: white;
+    outline: none;
+    color: #2E3539;
+    width: 60px;
+    height: 25px;
+    /*padding: 5px 15px;*/
+    border-radius: 3px;
+    cursor: pointer;
+}
+/*加入群聊*/
+.right .content .enterInfo{
+    color: #999999;
+    font-size: 14px;
+    width: 100%;
+    margin: 10px 0px;
+    text-align: center;
+}
+/*聊天信息*/
+/*其他人信息*/
+.othersInfo{
+    float: left;
+    overflow: hidden;
+}
+.othersInfo .avatar{
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    float: left;
+}
+.othersInfo .avatar img{
+    width: 100%;
+    height: 100%;
+}
+.othersInfo .chatInfo{
+    float: left;
+}
+.othersInfo .chatInfo p{
+   line-height: 15px;
+    color: grey;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+.othersInfo .chatInfo div{
+    padding: 5px 10px;
+    color: #2E3539;
+    background-color: white;
+}
+/*自己的信息*/
+.myInfo{
+    float: right;
+    overflow: hidden;
+}
+.myInfo .avatar{
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    float: right;
+}
+.myInfo .avatar img{
+    width: 100%;
+    height: 100%;
+}
+.myInfo .chatInfo{
+    float: right;
+}
+.myInfo .chatInfo div{
+    padding: 5px 10px;
+    color: white;
+    background-color: #2E3539;
+    margin-top: 6px;
+}
+.chatInfo img{
+    max-width: 200px;
+    /*max-height: 100px;*/
+}
+.infoShow{
+    width: 100%;
+    /*margin: 25px 0px;*/
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+/*.chatBox{*/
+/*    display: block;*/
+/*}*/

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="font/iconfont.css">
+    <link rel="stylesheet" href="lib/css/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="lib/css/jquery.emoji.css">
+</head>
+<body>
+    <div class="bigBox">
+<!--        登录-->
+        <div class="loginBox">
+            <h1>用户登录</h1>
+            <div>用户名：<input type="text" class="uNameInput"></div>
+            选择头像：
+            <ul class="avatarUl">
+                <li class="active"><img src="img/avatar1.jpg" alt=""></li>
+                <li><img src="img/avatar2.jpg" alt=""></li>
+                <li><img src="img/avatar3.jpg" alt=""></li>
+                <li><img src="img/avatar4.jpg" alt=""></li>
+                <li><img src="img/avatar5.jpg" alt=""></li>
+                <li><img src="img/avatar6.jpg" alt=""></li>
+            </ul>
+            <div><button type="button" class="btLogin">登录</button></div>
+        </div>
+<!--        聊天Box-->
+        <div class="chatBox">
+<!--            用户列表-->
+            <div class="left">
+                <div class="currentUser">
+<!--                    <p>当前用户</p>-->
+                    <img src="img/avatar1.jpg" alt=""><br/>
+                    <span>小王</span>
+                </div>
+                <div class="userList">
+                    <p>在线用户</p>
+                    <ul></ul>
+                </div>
+            </div>
+<!--            聊天界面-->
+            <div class="right">
+                <h2>聊天室(<span class="currentNum">2</span>)</h2>
+                <div class="infoDiv">
+<!--                    聊天内容-->
+                    <div class="content">
+
+                    </div>
+<!--                    编写内容-->
+                    <div class="editDiv">
+                        <div class="tool">
+                            <span class="iconfont icon-circle_emjoi btEmoji"></span>
+                            <label for="file"  class="iconfont icon-tupian sendImg"></label>
+                            <input type="file" id="file" style="display: none">
+                        </div>
+                        <div>
+                            <div class="editContent" id="info" contenteditable="true"></div>
+                            <div class="btDiv"><button type="button" class="btSend">发送</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/index.js"></script>
+<script src="lib/script/jquery.mCustomScrollbar.min.js"></script>
+<script src="lib/script/jquery.mousewheel-3.0.6.min.js"></script>
+<script src="lib/script/jquery.emoji.min.js"></script>
+<script type="text/javascript">
+    var userName,avatar;
+    var socket = io('http://localhost:8080');
+
+    //点击emoji表情时要初始化表情
+    $('.btEmoji').click(function () {
+        $("#info").emoji({
+            button: ".btEmoji",
+            showTab: false,
+            animation: 'slide',
+            position: 'topRight',
+            icons: [{
+                name: "QQ表情",
+                path: "lib/qq/",
+                maxNum: 91,
+                excludeNums: [41, 45, 54],
+                file: ".gif"
+            }]
+        });
+    });
+
+    $(".btLogin").click(function () {
+        var userN = $(".uNameInput").val();
+        var avatarSrc = $('.avatarUl li.active img').attr('src');
+        socket.emit('login',{userName:userN,avatar:avatarSrc});
+    });
+
+    //发送消息
+    $('.btSend').click(function () {
+        var info = $('#info').html();
+        $('#info').html('');
+        if(info != ""){
+            socket.emit('sendInfo',{
+                userName:userName,
+                avatar:avatar,
+                info:info
+            })
+        }
+    });
+
+    //发送图片
+    $('#file').change(function () {
+        var file = this.files[0];
+        //借助H5中的FileReader读取文件并发送到服务器
+        var fr = new FileReader();
+        fr.readAsDataURL(file);
+        fr.onload  = function(){ //读取完成
+            socket.emit('sendImg',{
+                userName:userName,
+                avatar:avatar,
+                img:fr.result           //读取结果
+            })
+        }
+    });
+
+
+    //监听服务器端收到的消息
+    socket.on('receiveInfo',data =>{
+        if(data.userName == userName){
+            $('.content').append(`<div class="infoShow">
+                                        <div class="myInfo">
+                                            <div class="avatar"><img src="${avatar}" alt=""></div>
+                                            <div class="chatInfo">
+                                                <div>${data.info}</div>
+                                            </div>
+                                        </div>
+                                </div>`)
+        }else {
+            $('.content').append(`<div class="infoShow">
+                                       <div class="othersInfo">
+                                            <div class="avatar"><img src="${data.avatar}" alt=""></div>
+                                            <div class="chatInfo">
+                                                <p>${data.userName}</p>
+                                                <div>${data.info}</div>
+                                            </div>
+                                       </div>
+                                   </div>`)
+        }
+
+        scrollToBottom();
+
+    });
+    //监听服务器端收到的图片
+    socket.on('receiveImg',data =>{
+        console.log(data);
+        if(data.userName == userName){
+            $('.content').append(`<div class="infoShow">
+                                        <div class="myInfo">
+                                            <div class="avatar"><img src="${avatar}" alt=""></div>
+                                            <div class="chatInfo">
+                                                <img src="${data.img}" alt="">
+                                            </div>
+                                        </div>
+                                </div>`)
+        }else {
+            $('.content').append(`<div class="infoShow">
+                                       <div class="othersInfo">
+                                            <div class="avatar"><img src="${data.avatar}" alt=""></div>
+                                            <div class="chatInfo">
+                                                <p>${data.userName}</p>
+                                                <img src="${data.img}" alt="">
+                                            </div>
+                                       </div>
+                                   </div>`)
+        }
+
+        //等待图片加载完成
+        $('.content img:last').on('load',function () {
+            scrollToBottom();
+        })
+
+    });
+
+    socket.on('loginErr',function (data) {
+        alert(data.msg)
+    })
+    socket.on('loginSuccess',function (data) {
+        //显示当前登录用户信息
+        $('.currentUser img').attr('src',data.avatar);
+        $('.currentUser span').text(data.userName);
+
+        userName = data.userName;
+        avatar = data.avatar;
+
+        $('.loginBox').fadeOut();
+        $('.chatBox').fadeIn();
+    })
+
+    //监听谁加入了聊天室
+    socket.on('enterInfo',function (data) {
+        $(".infoDiv .content").append(`<p class="enterInfo">${data.userName}加入了群聊</p>`)
+        scrollToBottom();
+    })
+
+    //监听当前所有在线人员
+    socket.on('userList',data =>{
+        $('.currentNum').text(data.length);
+        $('.userList ul').html('');
+        $.each(data,function (index,item) {
+            $('.userList ul').append(`<li><img src="${item.avatar}" alt="">${item.userName}</li>`)
+        })
+    })
+
+    //监听用户离开事件
+    socket.on('leaveInfo',function (data) {
+        $(".infoDiv .content").append(`<p class="enterInfo">${data}离开了群聊</p>`)
+        scrollToBottom();
+    })
+
+    //让聊天记录一直显示最新消息,及滚动条一直在底部
+    function scrollToBottom() {
+        $('.content').children(':last').get(0).scrollIntoView(false);
+    }
+</script>
+</html>

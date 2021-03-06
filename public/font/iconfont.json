@@ -1,0 +1,44 @@
+{
+  "id": "2388613",
+  "name": "聊天室",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "4134855",
+      "name": "emoji",
+      "font_class": "emoji",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "19940614",
+      "name": "图 片",
+      "font_class": "tupian",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "12713112",
+      "name": "文件",
+      "font_class": "wenjian",
+      "unicode": "e7d2",
+      "unicode_decimal": 59346
+    },
+    {
+      "icon_id": "18495515",
+      "name": "剪切 裁剪 剪刀",
+      "font_class": "jianqiecaijianjiandao",
+      "unicode": "e6cb",
+      "unicode_decimal": 59083
+    },
+    {
+      "icon_id": "19857122",
+      "name": "circle_emjoi",
+      "font_class": "circle_emjoi",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    }
+  ]
+}
